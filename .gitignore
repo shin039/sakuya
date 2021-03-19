@@ -1,5 +1,6 @@
 # Local Settings
 *_myenv.yml
+package-lock.json
 
 # Logs
 logs
