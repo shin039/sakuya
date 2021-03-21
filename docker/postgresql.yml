@@ -9,8 +9,8 @@ services:
     volumes:
       - ./pgsql-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: <Set Your Postgres User>
-      POSTGRES_PASSWORD: <Set Your Postgres Pass>
+      POSTGRES_USER       : ${PG_USER}
+      POSTGRES_PASSWORD   : ${PG_PASS}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     hostname: postgres
     restart: always

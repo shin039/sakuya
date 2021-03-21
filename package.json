@@ -3,19 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "sep0"   : "----------------------------------------------------",
-    "startdb": "docker-compose -f docker/postgresql_myenv.yml up -d",
-    "stopdb" : "docker-compose -f docker/postgresql_myenv.yml down",
+    "--db"   : "-- DB Script ---------------------------------------",
+    "startdb": "docker-compose -f docker/postgresql.yml --env-file docker/.env up -d",
+    "stopdb" : "docker-compose -f docker/postgresql.yml --env-file docker/.env down",
     "logindb": "docker exec -it postgresql bash",
     "cleandb": "rm -rf docker/pgsql-data",
-    "1---"   : "----------------------------------------------------",
+    "--app"  : "-- App Script --------------------------------------",
     "dev"    : "next dev",
-    "2---"   : "----------------------------------------------------",
     "build"  : "next build",
     "start"  : "next start",
-    "3---"   : "----------------------------------------------------",
     "clean"  : "rm -rf .next",
-    "4---"   : "----------------------------------------------------"
+    "--end"  : "----------------------------------------------------"
   },
   "dependencies": {
     "@types/pg-promise": "^5.4.3",
