@@ -7,7 +7,7 @@
     "startdb": "docker-compose -f docker/postgresql.yml --env-file docker/.env up -d",
     "stopdb" : "docker-compose -f docker/postgresql.yml --env-file docker/.env down",
     "logindb": "docker exec -it postgresql bash",
-    "cleandb": "rm -rf docker/pgsql-data",
+    "cleandb": "rm -rf docker/pgsql_data",
     "--app"  : "-- App Script --------------------------------------",
     "dev"    : "next dev",
     "build"  : "next build",
