@@ -1,6 +1,6 @@
 # Local Settings
 package-lock.json
-psql_data/
+pgsql_data/
 
 # Logs
 logs
