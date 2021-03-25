@@ -4,6 +4,6 @@ import { db }                              from "../../modules/database";
 
 export default async (req: any, res: any) => {
   const dbs  = db().instance;
-	const data = await dbs.any( "select * from m_staff")
+	const data = await dbs.any( "select * from m_goods")
 	res.status(200).json({ data });
 }
