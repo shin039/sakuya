@@ -1,14 +1,15 @@
-import pgPromise from "pg-promise";
-import log       from "../util/logUtil";
+import {IMain, IDatabase} from "pg-promise";
+import pgPromise          from "pg-promise";
+import log                from "../util/logUtil";
 
-const _pgp = pgPromise({/* Option */});
+const _pgp:IMain = pgPromise({/* Option */});
 
 const _pg_host = process.env.PG_HOST;
 const _pg_port = process.env.PG_PORT;
 const _pg_user = process.env.PG_USER; 
 const _pg_pass = process.env.PG_PASS; 
 
-log.out("# Init Connection Setting...")
+log.dbg("# Init Database Setting...")
 log.dbg(`url  => ${_pg_host}:${_pg_port}`)
 log.dbg(`user => ${_pg_user}`)
 
@@ -24,19 +25,20 @@ const config = {
   }
 };
 
+
 // Singleton
 //   -> For. warning of "Duplicate database object with pg-promise"
 export const db = () => {
 
-  const con = global.connection;
+  const db = global.database;
 
-  if(con) return con;
+  if(db) return db;
   
-  // Connection Initialize
-  log.out("# Connection Create.")
-  const newConnection    = {};
-  newConnection.instance = _pgp(config.db);
-  global.connection      = newConnection;
-  return newConnection;
+  // Database Access Initialize
+  log.out("# DB Access Object Create.")
+  const newDB     = {};
+  newDB.instance  = _pgp(config.db);
+  global.database = newDB;
+  return newDB;
 }
 

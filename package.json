@@ -23,7 +23,8 @@
     "next": "10.0.9",
     "pg-promise": "^10.9.5",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "sql-template-strings": "^2.2.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.35",
