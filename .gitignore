@@ -1,6 +1,6 @@
 # Local Settings
 package-lock.json
-pgsql_data/
+.pgsql_data/
 
 # Dependency directories
 node_modules/

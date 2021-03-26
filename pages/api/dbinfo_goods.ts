@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
-import { db }                              from "../../modules/database";
+import { db }                              from "../../modules/db/connection";
 
 export default async (req: any, res: any) => {
   const dbs  = db().instance;
