@@ -7,7 +7,7 @@
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS m_staff (
   staff_id serial,
-  userid   varchar(20) NOT NULL, -- For Login
+  userid   varchar(20) NOT NULL, -- For Login (Uniqueue)
   passwd   text        NOT NULL, -- For Login
   name     text        NOT NULL,
   birthday date        NOT NULL,
@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS m_staff (
   update_staff      integer,
   update_time       timestamp,
 
-  PRIMARY KEY (staff_id)
+  PRIMARY KEY (staff_id),
+  UNIQUE      (userid)
 );
 
 -- ----------------------------------------------------------------------------

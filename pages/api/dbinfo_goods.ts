@@ -4,7 +4,7 @@ import log                                 from "../../util/logUtil";
 import { db }                              from "../../modules/db/connection";
 import SQL                                 from "sql-template-strings";
 
-export default async (req: any, res: any) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const dbs   = db().instance;
   const query = SQL`select * from m_goods`;
 	const data  = await dbs.any(query.text, query.values)

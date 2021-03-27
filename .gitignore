@@ -1,6 +1,11 @@
 # Local Settings
 package-lock.json
+
+# DB Temp
 .pgsql_data/
+
+# DB TestData
+docker/pgsql_sql/9*.sql
 
 # Dependency directories
 node_modules/
