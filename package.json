@@ -16,6 +16,7 @@
     "startprd": "next start",
     "---util" : "-- Util Script ----------------------------------------------------------",
     "clean"   : "rm -rf .next",
+    "cleanall": "npm run clean && npm run cleandb",
     "---end"  : "-------------------------------------------------------------------------"
   },
   "dependencies": {
