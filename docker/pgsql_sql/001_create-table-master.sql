@@ -30,12 +30,14 @@ CREATE TABLE IF NOT EXISTS m_staff (
 -- Goods
 CREATE TABLE IF NOT EXISTS m_goods (
   goods_id          serial,
-  model_no          text NOT NULL,
+  model_no          text,
+  jan               varchar(13),
+  category          integer,
 
-  name              text,
+  name              text NOT NULL,
   maker_id          integer, -- Company Id
   unit_cost         numeric,
-  tax               numeric, -- For Reduced Tax Rate
+  tax_rate          numeric, -- For Reduced Tax Rate
   ws_price          numeric, -- WholeSale Price (Tax Exclude)
   rt_price          numeric, -- Retail    Price (Tax Exclude)
 
@@ -51,8 +53,7 @@ CREATE TABLE IF NOT EXISTS m_goods (
 
 -- Goods Details ( Goods : Goods Details => 1 : 1)
 CREATE TABLE IF NOT EXISTS m_goods_details (
-  goods_id          integer,
-  goods_type        integer NOT NULL,
+  goods_id          integer NOT NULL,
 
   sales_discription text,
   sales_discript50  varchar(50),
@@ -106,8 +107,8 @@ CREATE TABLE IF NOT EXISTS m_goods_extra (
 -- CREATE Goods Type, Goods Extra, Goods Material TABLE
 -- ----------------------------------------------------------------------------
 -- Goods Type ( Goods : Goods Type => 1 : 1)
-CREATE TABLE IF NOT EXISTS m_goods_type (
-  goods_type        serial,
+CREATE TABLE IF NOT EXISTS m_category (
+  category          serial,
   name              varchar(20),
   discription       text,
 
@@ -117,13 +118,13 @@ CREATE TABLE IF NOT EXISTS m_goods_type (
   update_staff      integer,
   update_time       timestamp,
 
-  PRIMARY KEY (goods_type)
+  PRIMARY KEY (category)
 );
 
 -- Goods Extra ( Goods Type : Goods Extra Type => 1 : N)
 CREATE TABLE IF NOT EXISTS m_goods_extra_type (
-  goods_extra_type  serial,
-  goods_type        integer NOT NULL,
+  goods_extra_type serial,
+  category         integer NOT NULL,
 
   i01_name         text,
   i02_name         text,
@@ -205,25 +206,6 @@ CREATE TABLE IF NOT EXISTS m_material_type (
   update_time       timestamp,
 
   PRIMARY KEY (material_type)
-);
-
--- ----------------------------------------------------------------------------
--- CREATE Tax TABLE
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS m_tax (
-  tax_id            serial,
-  name              numeric NOT NULL,
-  start_data        date    NOT NULL,
-  end_date          date,
-  discription       text,
-
-  is_delete         boolean DEFAULT false,
-  regist_staff      integer,
-  regist_time       timestamp,
-  update_staff      integer,
-  update_time       timestamp,
-
-  PRIMARY KEY (tax_id)
 );
 
 -- ----------------------------------------------------------------------------
