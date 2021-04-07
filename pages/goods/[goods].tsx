@@ -10,9 +10,12 @@ export default function goods({ goods }){
     <div>
       <h1>商品詳細</h1>
       <h2>{good.name}</h2>
-      <p>{good.jan}</p>
-      <p>{good.ws}</p>
-      <p>{good.rt}</p>
+      <br/>
+      <table border="1">
+        <tr><th>Jan</th><td>{good.jan}</td></tr>
+        <tr><th>WS Price</th><td>{good.ws} </td></tr>
+        <tr><th>RT Price</th><td>{good.rt} </td></tr>
+      </table>
     </div>
   );
 }
