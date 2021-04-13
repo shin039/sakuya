@@ -26,14 +26,14 @@ export async function getServerSideProps({params}) {
   const dbs   = db().instance;
   const query = SQL`
     SELECT
-       mg.staff_id AS id
-      ,mg.userid   AS userid
-      ,mg.name     AS name
+       sf.staff_id AS id
+      ,sf.userid   AS userid
+      ,sf.name     AS name
 
-    FROM m_staff mg
+    FROM m_staff sf
     WHERE true
-      AND NOT mg.is_delete
-      AND     mg.staff_id = ${id}
+      AND NOT sf.is_delete
+      AND     sf.staff_id = ${id}
     ;
   `;
 	const staff  = await dbs.any(query.text, query.values)
