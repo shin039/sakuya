@@ -6,7 +6,9 @@ export default function goods({ goods }){
 
   const good = goods[0];
 
-  return (
+  return (! good ?
+   <div>該当の商品はありません。 </div>
+  :
     <div>
       <h1>商品詳細</h1>
       <h2>{good.name}</h2>
