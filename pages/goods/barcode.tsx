@@ -8,10 +8,9 @@ export default function barcode() {
   const [line, setLine] = useState([]);
   const [data, setData] = useState("");
 
-  const addLine = () => {
-    setLine([...line, data]);
-    setData("");
-  }
+  // Functions of List
+  const addLine = () => { setLine([...line, data]); setData(""); };
+  const delLine = () => {line.splice(index, 1); console.log(line); setLine([...line])};
 
   return (
     <div>
@@ -24,7 +23,7 @@ export default function barcode() {
       {/* 表示欄 */}
       <ul>
         {line.map((data, index) => {
-          return <li key={index}>{data} <button onClick={() => {line.splice(index, 1); console.log(line); setLine([...line])}}>削除</button></li>;
+          return <li key={index}>{data} <button onClick={delLine}>削除</button></li>;
         })}
       </ul>
     </div>
