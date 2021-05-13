@@ -215,6 +215,7 @@ CREATE TABLE IF NOT EXISTS m_material_type (
 CREATE TABLE IF NOT EXISTS m_company (
   company_id        serial,
   name              text    NOT NULL,
+  regal_personality varchar(10),
   tel               varchar(15),
   fax               varchar(15),
   address           text,
@@ -265,7 +266,11 @@ CREATE TABLE IF NOT EXISTS m_discount (
   discount_id       serial,
   goods_id          integer,
   company_id        integer,
-  ratio             numeric,
+
+  -- use either column
+  ratio             numeric, -- Ratio of wholesale price to retail price.
+  price             numeric, -- tax exclude. -> refer to the tax on m_goods table
+
   discription       text,
 
   is_delete         boolean DEFAULT false,

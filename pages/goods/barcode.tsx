@@ -4,7 +4,7 @@ import { db }      from "../../modules/db/connection";
 import SQL         from "sql-template-strings";
 import Link        from "next/link";
 
-export default function barcode({category}) {
+export default function barcode({category, prices}) {
   // ---------------------------------------------------------------------------
   // Check React Hook 
   // ---------------------------------------------------------------------------
@@ -20,8 +20,13 @@ export default function barcode({category}) {
   // ---------------------------------------------------------------------------
   // Const
   // ---------------------------------------------------------------------------
-  const [glist, setGList] = useState([]);
-  const [gname, setGName] = useState("");
+  // Search Condition
+  const [sname    , setSname]     = useState("");
+  const [sCategory, setSCategory] = useState(0);
+
+  // Goods List
+  const [glist    , setGList]     = useState([]);
+
 
   const options = [];
   category.map((content, index) => {options.push({code: content.category, name: content.name}); });
@@ -30,9 +35,7 @@ export default function barcode({category}) {
   // Function
   // ---------------------------------------------------------------------------
   const searchGoods = () => {
-    log.dbg("# -- サーバサイド関数なのか... ------------------------------------");
-    console.log(`  Search Goods Name: ${gname}`);
-    log.dbg(`  Search Goods Name: ${gname}`);
+    log.out(`  Search Goods Name: ${sname}`);
   };
 
   // ---------------------------------------------------------------------------
@@ -44,17 +47,19 @@ export default function barcode({category}) {
   const init = () => {
     // DEBUG 
     log.dbg("# Page inited!");
-    
   };
   useEffect(init, []);
-
 
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
   return (
-    <div>
+    <>
       <h1>バーコードリスト作成</h1>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* 試験確認用　　　　　　　                                           */}
+      {/* ------------------------------------------------------------------ */}
 
       {/* 入力フォーム */}
       <input  type="text" name="data" onChange={ e => setData(e.target.value) } value={data} />
@@ -70,29 +75,43 @@ export default function barcode({category}) {
       <hr/>
       
       {/* ------------------------------------------------------------------ */}
-      {/* バーコードリスト作成画面                                           */}
+      {/* 商品検索                                                           */}
       {/* ------------------------------------------------------------------ */}
-
-      {/* 商品検索 */}
-      <div>
+      <div key="condition">
         <h2>検索条件</h2>
-        <label>Name: <input type="text" name="gname" onChange={ e => setGName(e.target.value) } value={gname} /></label>
-        <br/> <br/>
-        <label> Category: <select>{options.map(val => <option key={val.code} value={val.code}>{val.name}</option>)}</select>
+        <label>Name: <input type="text" name="sname" onChange={ e => setSname(e.target.value) } value={sname} /></label>
+        <br/>
+        <br/>
+        <label> Category: <select>{options.map(val => <option key={val.code} value={val.code}>{val.name}</option>)}</select></label>
+        <br/>
+        <br/>
+        <label> Type: 
+          {prices.map(price => <label  key={price.company_id}><input type="radio" name="price" value={price.company_id}/>{price.name}</label>)}
         </label>
-        <br/> <br/>
+        <br/>
+        <br/>
         <button onClick={searchGoods}>検索</button>
       </div>
 
       <hr/>
 
-      {/* 商品リスト */}
-      
+      {/* ------------------------------------------------------------------ */}
+      {/* 商品ピックアップセクション                                         */}
+      {/* ------------------------------------------------------------------ */}
+      <div>
+        {/* 商品リスト */}
+        <div>Goods List</div>
 
-      {/* 印刷リスト */}
+        {/* D & D */}
+  
+        {/* 印刷リスト */}
+        <div>Print List</div>
 
+      {/* -- close/pickup seciton */}
+      </div>
 
-    </div>
+    {/* -- close/root div */}
+    </>
   );
 }
 
@@ -100,12 +119,30 @@ export async function getServerSideProps(){
   log.dbg("Server Side Props, Done!");
 
   const dbs      = db().instance;
-  const query    = SQL`SELECT category, name FROM m_category WHERE NOT is_delete;`;
-  const category = await dbs.any(query.text, query.values);
 
+  // Category
+  const ct_query = SQL`SELECT category, name FROM m_category WHERE NOT is_delete;`;
+  const category = await dbs.any(ct_query.text, ct_query.values);
+  category.unshift({category: 0, name: '全て'});
+
+  // Special Price
+  const pr_query = SQL`
+    SELECT
+       company_id
+      ,name
+    FROM
+        m_company 
+    WHERE
+        NOT is_delete
+        AND company_id in (SELECT company_id FROM m_discount WHERE NOT is_delete GROUP BY company_id ORDER BY company_id)
+    ;`;
+  const pr_price = await dbs.any(pr_query.text, pr_query.values);
+        pr_price.unshift({company_id: 0, name: '標準'});
+  
   return {
     props: {
-      category: category
+      category: category,
+      prices  : pr_price
     }
   };
 }
